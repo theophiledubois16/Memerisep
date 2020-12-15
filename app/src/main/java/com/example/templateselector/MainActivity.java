@@ -2,13 +2,16 @@ package com.example.templateselector;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +29,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.nio.file.ClosedDirectoryStreamException;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText textInput;
@@ -34,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private Button  apply, selectedText;
     private ImageButton submit;
     private ImageView imageView;
+    private Rect rectParent, rectView;
+    float dX, dY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +92,104 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    RelativeLayout parentLayout = (RelativeLayout) v.getParent();
 
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                        v.setX(event.getRawX() - v.getWidth() / 2.0f);
-                        v.setY(event.getRawY() - v.getHeight() / 2.0f);
+                    int w = v.getWidth();
+                    int h = v.getHeight();
+                    int W = parentLayout.getWidth();
+                    int H = parentLayout.getHeight();
+
+                    switch (event.getAction()) {
+
+                        case MotionEvent.ACTION_DOWN:
+                            dX = v.getX() - event.getRawX();
+                            dY = v.getY() - event.getRawY();
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            v.animate()
+                                    .x(event.getRawX() + dX)
+                                    .y(event.getRawY() + dY)
+                                    .setDuration(0)
+                                    .start();
+
+                            float x = v.getX();
+                            float y = v.getY();
+                            float X = parentLayout.getX();
+                            float Y = parentLayout.getY();
+
+
+                            if ((Y+H)<(y+h+50) ){
+
+                                v.animate()
+                                        .x(event.getRawX() + dX)
+                                        .y((Y+H) -(h+50))
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO LOW");
+                            }
+
+                            if ((X+W)<(x+w+50)){
+                                v.animate()
+                                        .x((X+W) -(w+50))
+                                        .y(event.getRawY() + dY)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO RIGHT");
+                            }
+
+                            if ((x)<(X+50)){
+                                v.animate()
+                                        .x(X + 50)
+                                        .y(event.getRawY() + dY)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO LEFT");
+                            }
+
+                            if ((y)<(Y+50)){
+                                v.animate()
+                                        .x(event.getRawX() + dX)
+                                        .y(Y + 50)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO HIGH");
+                            }
+
+                            if(((x)<(X+50))&&((y)<(Y+50))){ //hl
+                                v.animate()
+                                        .x(X+50)
+                                        .y(Y + 50)
+                                        .setDuration(0)
+                                        .start();
+                            }
+
+                            if(((y)<(Y+50))&&((X+W)<(x+w+50))){
+                                v.animate()
+                                        .x((X+W) -(w+50))
+                                        .y(Y+50)
+                                        .setDuration(0)
+                                        .start();
+                            }//hr
+
+                            if(((Y+H)<(y+h+50))&&((x)<(X+50))){
+                                v.animate()
+                                        .x(X+50)
+                                        .y((Y+H) -(h+50))
+                                        .setDuration(0)
+                                        .start();
+                            }//bl
+
+                            if(((Y+H)<(y+h+50))&&((X+W)<(x+w+50))){
+                                v.animate()
+                                        .x((X+W) -(w+50))
+                                        .y((Y+H) -(h+50))
+                                        .setDuration(0)
+                                        .start();
+                            }//br
+                            break;
                     }
-
                     selectedText = newTextView;
-                    Log.d("newTextView", "newTextView = "+newTextView);
 
                     editTextStyle.setVisibility(View.VISIBLE);
                     editText.setVisibility(View.GONE);
