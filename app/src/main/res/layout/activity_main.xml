@@ -28,6 +28,7 @@
                 android:layout_gravity="center|center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                app:srcCompat="@drawable/expanding_brain"
                 tools:ignore="MissingConstraints" />
 
         </RelativeLayout>
@@ -49,7 +50,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,9 +136,11 @@
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
                         android:contentDescription="bold"
-                        android:onClick="textStyleManager"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/bold_512" />
+                        <!--
+                        android:onClick="textStyleManager"
+                        -->
 
                     <View
                         android:id="@+id/view1"
@@ -152,19 +156,12 @@
                         android:adjustViewBounds="true"
                         android:scaleType="fitCenter"
                         android:text="Font"
+                        android:onClick="textStyleManager"
                         android:textAlignment="center"
+                        android:contentDescription="font"
                         android:textAllCaps="false"
+                        android:textColor="#000000"
                         android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/color"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:text="Color"
-                        android:textAllCaps="false" />
 
                     <View
                         android:id="@+id/view2"
@@ -196,7 +193,8 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/relativeLayout">
+            app:layout_constraintTop_toBottomOf="@id/relativeLayout"
+            tools:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -234,7 +232,6 @@
                     android:background="#00FFFFFF"
                     android:onClick="updateText"
                     android:scaleType="fitCenter"
-
                     app:srcCompat="@drawable/send" />
 
 
@@ -276,6 +273,201 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editTextLayout" />
 
+        <LinearLayout
+            android:id="@+id/fontEditor"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#C3000000"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible">
 
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#270C0000"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/fontExempleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="#85AEA9A9"
+                    android:padding="5dp"
+                    android:text="Exemple"
+                    android:textAlignment="center"
+                    android:textSize="36sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Button
+                            android:id="@+id/button11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="#FF2D00"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter"
+                            android:textAllCaps="false" />
+
+                        <Button
+                            android:id="@+id/button12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="#FFD800"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter" />
+
+                        <Button
+                            android:id="@+id/button13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="#00FF17"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter" />
+
+                        <Button
+                            android:id="@+id/button14"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="#0004FF"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter" />
+
+                        <Button
+                            android:id="@+id/black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:background="#000000"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter" />
+
+                        <Button
+                            android:id="@+id/button15"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#FFFFFF"
+                            android:contentDescription="color"
+                            android:onClick="fontSetter" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <Button
+                            android:id="@+id/button16"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="font"
+                            android:fontFamily="sans-serif-black"
+                            android:onClick="fontSetter"
+                            android:text="Black"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/button17"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="font"
+                            android:onClick="fontSetter"
+                            android:text="Medium"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/button18"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="font"
+                            android:fontFamily="sans-serif-condensed"
+                            android:onClick="fontSetter"
+                            android:text="Condensed"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/button19"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="font"
+                            android:fontFamily="serif"
+                            android:onClick="fontSetter"
+                            android:text="Serif"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/button21"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="font"
+                            android:fontFamily="serif-monospace"
+                            android:onClick="fontSetter"
+                            android:text="Monospace"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                        <Button
+                            android:id="@+id/button20"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="font"
+                            android:fontFamily="cursive"
+                            android:onClick="fontSetter"
+                            android:text="Cursive"
+                            android:textAllCaps="false"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/submitFont"
+                    android:layout_width="75dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:backgroundTint="#BFEAD2D2"
+                    android:onClick="setFont"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/submit" />
+                <!---->
+
+            </LinearLayout>
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

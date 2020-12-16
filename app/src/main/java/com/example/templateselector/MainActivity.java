@@ -9,11 +9,13 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,8 +25,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
@@ -37,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText textInput;
     private RelativeLayout relativeLayout;
-    private LinearLayout editTextStyle, editText;
-    private Button apply, selectedText, saveMeme;
+    private LinearLayout editTextStyle, editText, fontEditor;
+    private Button apply, selectedText, saveMeme,font;
     private ImageButton submit;
     private ImageView imageView;
     float dX, dY;
     private ScrollView scrollView;
+    private TextView fontExampleView;
 
 
 
@@ -60,17 +66,19 @@ public class MainActivity extends AppCompatActivity {
         apply = findViewById(R.id.apply);
         imageView = findViewById(R.id.imageView);
         saveMeme = findViewById(R.id.save);
+        fontEditor = findViewById(R.id.fontEditor);
+        fontExampleView = findViewById(R.id.fontExempleView);
+        font = findViewById(R.id.font);
 
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
-
         String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
-        Glide.with(this)
+        /*Glide.with(this)
                 .load(urlTemplate)
-                .into(imageView);
+                .into(imageView);*/
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -101,13 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onTouch(View v, MotionEvent event) {
                     RelativeLayout parentLayout = (RelativeLayout) v.getParent();
 
-                    scrollView.setOnTouchListener( new View.OnTouchListener(){
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return true;
-                        }
-                    });
-
                     int w = v.getWidth();
                     int h = v.getHeight();
                     int W = parentLayout.getWidth();
@@ -116,6 +117,9 @@ public class MainActivity extends AppCompatActivity {
                     switch (event.getAction()) {
 
                         case MotionEvent.ACTION_DOWN:
+
+                            relativeLayout.requestDisallowInterceptTouchEvent(true);
+                            Log.d("TRUE", "onTouch: "+ "relativeLayout.requestDisallowInterceptTouchEvent(true);" );
                             dX = v.getX() - event.getRawX();
                             dY = v.getY() - event.getRawY();
                             break;
@@ -202,13 +206,21 @@ public class MainActivity extends AppCompatActivity {
                                         .start();
                             }
                             break;
+
+                        case MotionEvent.ACTION_UP:
+
+                            relativeLayout.requestDisallowInterceptTouchEvent(false);
+
+                            Log.d("FALSE", "onTouch: "+ "relativeLayout.requestDisallowInterceptTouchEvent(flase);" );
                     }
+                    Typeface style = newTextView.getTypeface();
+                    font.setTypeface(style);
+
                     selectedText = newTextView;
                     editTextStyle.setVisibility(View.VISIBLE);
                     editText.setVisibility(View.GONE);
                     apply.setVisibility(View.VISIBLE);
                     apply.setEnabled(true);
-                    scrollView.setOnTouchListener(null);
                     return true;
                 }
 
@@ -225,9 +237,17 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("WrongConstant")
     public void textStyleManager(final View view) {
+        CharSequence action = null;
 
-        ImageButton buttonClicked = (ImageButton) view;
-        CharSequence action = buttonClicked.getContentDescription();
+        if (view instanceof ImageButton) {
+            ImageButton buttonClicked = (ImageButton) view;
+            action = buttonClicked.getContentDescription();
+        }
+
+        if (view instanceof Button) {
+            Button buttonClicked = (Button) view;
+            action = buttonClicked.getContentDescription();
+        }
 
         Log.d("fontSizeManager", "ACTION = "+ action);
 
@@ -238,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
             if (action.equals("+") && spFontSize < 80){
                 selectedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, spFontSize + 4 );
             }
-            else if (action.equals("-")&& spFontSize > 18){
+            else if (action.equals("-")&& spFontSize > 15){
                 selectedText.setTextSize(TypedValue.COMPLEX_UNIT_SP, spFontSize - 4 );
             }
             else if (action.equals("left")){
@@ -260,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
 
                     selectedText.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 }
-            }
+            } //TODO: ne prend pas en compte la police et la reset, A FIXER
             else if (action.equals("bin")){
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -271,14 +291,25 @@ public class MainActivity extends AppCompatActivity {
                         applyText(view);
                     }
                 }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                     }
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
             }
+            else if (action.equals("font")){
+                fontEditor.setVisibility(View.VISIBLE);
+                apply.setVisibility(View.GONE);
+                Typeface style = font.getTypeface();
+                fontExampleView.setTypeface(style);
 
+                int viewColor = font.getCurrentTextColor();
+                String hexColor = String.format("#%06X", (0xFFFFFF & viewColor));
+                fontExampleView.setTextColor(Color.parseColor(hexColor));
+
+            }
         }
     }
 
@@ -291,7 +322,6 @@ public class MainActivity extends AppCompatActivity {
         saveToGallery();
     }
 
-
     public static Bitmap setViewToBitmapImage(View view) {
         Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(returnedBitmap);
@@ -303,13 +333,14 @@ public class MainActivity extends AppCompatActivity {
         view.draw(canvas);
         return returnedBitmap;
     }
+
     private void saveToGallery () {
 
         Bitmap bitmap = setViewToBitmapImage(relativeLayout);
 
         FileOutputStream outputStream = null;
         File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/Pictures");
+        File dir = new File(file.getAbsolutePath() + "/Pictures/MemerISEP");
         dir.mkdirs();
 
         String filename = String.format("%d.png",System.currentTimeMillis());
@@ -333,5 +364,38 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public void fontSetter(View view){
+        Button buttonClicked = (Button) view;
+
+        CharSequence action = buttonClicked.getContentDescription();
+        if (action.equals("font")){
+            Typeface style = buttonClicked.getTypeface();
+            fontExampleView.setTypeface(style);
+        }
+        else if (action.equals("color")){
+            ColorDrawable viewColor = (ColorDrawable) buttonClicked.getBackground();
+            int colorId = viewColor.getColor();
+            String hexColor = String.format("#%06X", (0xFFFFFF & colorId));
+            fontExampleView.setTextColor(Color.parseColor(hexColor));
+        }
+    }
+
+    public void setFont (View view){
+        Typeface styleToPass = fontExampleView.getTypeface();
+        int viewColor = fontExampleView.getCurrentTextColor();
+        String hexColor = String.format("#%06X", (0xFFFFFF & viewColor));
+
+        selectedText.setTextColor(Color.parseColor(hexColor));
+        selectedText.setTypeface(styleToPass);
+
+        font.setTypeface(styleToPass);
+        font.setTextColor(Color.parseColor(hexColor));
+
+        fontEditor.setVisibility(View.GONE);
+
+        apply.setVisibility(View.VISIBLE);
+
     }
 }
