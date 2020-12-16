@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout editTextStyle, editText;
     private Button  apply, selectedText;
     private ImageButton submit;
-    private ImageView imageView;
-    private Rect rectParent, rectView;
+    private ImageView imageView;git
     float dX, dY;
 
     @Override
@@ -119,74 +118,74 @@ public class MainActivity extends AppCompatActivity {
                             float Y = parentLayout.getY();
 
 
-                            if ((Y+H)<(y+h+50) ){
+                            if ((Y+H)<(y+h+30) ){
 
                                 v.animate()
                                         .x(event.getRawX() + dX)
-                                        .y((Y+H) -(h+50))
+                                        .y((Y+H) -(h+30))
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO LOW");
                             }
 
-                            if ((X+W)<(x+w+50)){
+                            if ((X+W)<(x+w+30)){
                                 v.animate()
-                                        .x((X+W) -(w+50))
+                                        .x((X+W) -(w+30))
                                         .y(event.getRawY() + dY)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO RIGHT");
                             }
 
-                            if ((x)<(X+50)){
+                            if ((x)<(X+30)){
                                 v.animate()
-                                        .x(X + 50)
+                                        .x(X + 30)
                                         .y(event.getRawY() + dY)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO LEFT");
                             }
 
-                            if ((y)<(Y+50)){
+                            if ((y)<(Y+30)){
                                 v.animate()
                                         .x(event.getRawX() + dX)
-                                        .y(Y + 50)
+                                        .y(Y + 30)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO HIGH");
                             }
 
-                            if(((x)<(X+50))&&((y)<(Y+50))){ //hl
+                            if(((x)<(X+30))&&((y)<(Y+30))){ //hl
                                 v.animate()
-                                        .x(X+50)
-                                        .y(Y + 50)
+                                        .x(X+30)
+                                        .y(Y + 30)
                                         .setDuration(0)
                                         .start();
                             }
 
-                            if(((y)<(Y+50))&&((X+W)<(x+w+50))){
+                            if(((y)<(Y+30))&&((X+W)<(x+w+30))){
                                 v.animate()
-                                        .x((X+W) -(w+50))
-                                        .y(Y+50)
+                                        .x((X+W) -(w+30))
+                                        .y(Y+30)
                                         .setDuration(0)
                                         .start();
-                            }//hr
+                            }
 
-                            if(((Y+H)<(y+h+50))&&((x)<(X+50))){
+                            if(((Y+H)<(y+h+30))&&((x)<(X+30))){
                                 v.animate()
-                                        .x(X+50)
-                                        .y((Y+H) -(h+50))
+                                        .x(X+30)
+                                        .y((Y+H) -(h+30))
                                         .setDuration(0)
                                         .start();
-                            }//bl
+                            }
 
-                            if(((Y+H)<(y+h+50))&&((X+W)<(x+w+50))){
+                            if(((Y+H)<(y+h+30))&&((X+W)<(x+w+30))){
                                 v.animate()
-                                        .x((X+W) -(w+50))
-                                        .y((Y+H) -(h+50))
+                                        .x((X+W) -(w+30))
+                                        .y((Y+H) -(h+30))
                                         .setDuration(0)
                                         .start();
-                            }//br
+                            }
                             break;
                     }
                     selectedText = newTextView;
@@ -199,11 +198,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             });
-
-
         }
     }
-
     public void applyText(View view){
         submit.setEnabled(true);
         apply.setEnabled(false);
