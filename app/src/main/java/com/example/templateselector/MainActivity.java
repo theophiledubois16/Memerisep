@@ -2,7 +2,11 @@ package com.example.templateselector;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+<<<<<<< HEAD
 import androidx.core.app.ActivityCompat;
+=======
+import androidx.constraintlayout.widget.ConstraintSet;
+>>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -11,9 +15,15 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.Typeface;
+<<<<<<< HEAD
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+=======
+import android.graphics.drawable.Drawable;
+import android.media.Image;
+>>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -29,8 +39,12 @@ import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
+<<<<<<< HEAD
 import java.io.File;
 import java.io.FileOutputStream;
+=======
+import java.nio.file.ClosedDirectoryStreamException;
+>>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout editTextStyle, editText;
     private Button apply, selectedText, saveMeme;
     private ImageButton submit;
-    private ImageView imageView;
+    private ImageView imageView;git
+    float dX, dY;
 
 
 
@@ -95,14 +110,104 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    RelativeLayout parentLayout = (RelativeLayout) v.getParent();
 
-                    if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                        v.setX(event.getRawX() - v.getWidth() / 2.0f);
-                        v.setY(event.getRawY() - v.getHeight() / 2.0f);
+                    int w = v.getWidth();
+                    int h = v.getHeight();
+                    int W = parentLayout.getWidth();
+                    int H = parentLayout.getHeight();
+
+                    switch (event.getAction()) {
+
+                        case MotionEvent.ACTION_DOWN:
+                            dX = v.getX() - event.getRawX();
+                            dY = v.getY() - event.getRawY();
+                            break;
+
+                        case MotionEvent.ACTION_MOVE:
+                            v.animate()
+                                    .x(event.getRawX() + dX)
+                                    .y(event.getRawY() + dY)
+                                    .setDuration(0)
+                                    .start();
+
+                            float x = v.getX();
+                            float y = v.getY();
+                            float X = parentLayout.getX();
+                            float Y = parentLayout.getY();
+
+
+                            if ((Y+H)<(y+h+30) ){
+
+                                v.animate()
+                                        .x(event.getRawX() + dX)
+                                        .y((Y+H) -(h+30))
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO LOW");
+                            }
+
+                            if ((X+W)<(x+w+30)){
+                                v.animate()
+                                        .x((X+W) -(w+30))
+                                        .y(event.getRawY() + dY)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO RIGHT");
+                            }
+
+                            if ((x)<(X+30)){
+                                v.animate()
+                                        .x(X + 30)
+                                        .y(event.getRawY() + dY)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO LEFT");
+                            }
+
+                            if ((y)<(Y+30)){
+                                v.animate()
+                                        .x(event.getRawX() + dX)
+                                        .y(Y + 30)
+                                        .setDuration(0)
+                                        .start();
+                                Log.d("TAG", "TOO HIGH");
+                            }
+
+                            if(((x)<(X+30))&&((y)<(Y+30))){ //hl
+                                v.animate()
+                                        .x(X+30)
+                                        .y(Y + 30)
+                                        .setDuration(0)
+                                        .start();
+                            }
+
+                            if(((y)<(Y+30))&&((X+W)<(x+w+30))){
+                                v.animate()
+                                        .x((X+W) -(w+30))
+                                        .y(Y+30)
+                                        .setDuration(0)
+                                        .start();
+                            }
+
+                            if(((Y+H)<(y+h+30))&&((x)<(X+30))){
+                                v.animate()
+                                        .x(X+30)
+                                        .y((Y+H) -(h+30))
+                                        .setDuration(0)
+                                        .start();
+                            }
+
+                            if(((Y+H)<(y+h+30))&&((X+W)<(x+w+30))){
+                                v.animate()
+                                        .x((X+W) -(w+30))
+                                        .y((Y+H) -(h+30))
+                                        .setDuration(0)
+                                        .start();
+                            }
+                            break;
                     }
-
                     selectedText = newTextView;
-                    Log.d("newTextView", "newTextView = "+newTextView);
 
                     editTextStyle.setVisibility(View.VISIBLE);
                     editText.setVisibility(View.GONE);
@@ -112,11 +217,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             });
-
-
         }
     }
-
     public void applyText(View view){
         submit.setEnabled(true);
         apply.setEnabled(false);
