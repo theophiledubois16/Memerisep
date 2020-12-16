@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity {
         apply.setEnabled(false);
         String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
-        /*Glide.with(this)
+        Glide.with(this)
                 .load(urlTemplate)
-                .into(imageView);*/
+                .into(imageView);
     }
 
     @SuppressLint("ClickableViewAccessibility")
