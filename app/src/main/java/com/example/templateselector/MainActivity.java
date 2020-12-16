@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout editTextStyle, editText;
     private Button  apply, selectedText;
     private ImageButton submit;
-    private ImageView imageView;git
+    private ImageView imageView;
     float dX, dY;
 
     @Override
