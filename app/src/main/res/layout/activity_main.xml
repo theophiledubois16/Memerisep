@@ -253,6 +253,13 @@
             app:srcCompat="@drawable/galery"
             tools:ignore="MissingConstraints,OnClick" />
 
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="saveMemeClicked"
+            android:text="Save" />
+
     </LinearLayout>
 
     <Button

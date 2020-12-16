@@ -2,18 +2,22 @@ package com.example.templateselector;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.media.Image;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -22,18 +26,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText textInput;
     private RelativeLayout relativeLayout;
     private LinearLayout editTextStyle, editText;
-    private Button  apply, selectedText;
+    private Button apply, selectedText, saveMeme;
     private ImageButton submit;
     private ImageView imageView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         apply = findViewById(R.id.apply);
         imageView = findViewById(R.id.imageView);
+        saveMeme = findViewById(R.id.save);
 
-
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
 
@@ -177,5 +187,53 @@ public class MainActivity extends AppCompatActivity {
     public void changeTemplate (View view){
         this.finish();
 
+    }
+
+    public void saveMemeClicked (View view){
+        saveToGallery();
+    }
+
+
+    public static Bitmap setViewToBitmapImage(View view) {
+        Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(returnedBitmap);
+        Drawable drawable = view.getBackground();
+        if (drawable != null)
+            drawable.draw(canvas);
+        else
+            canvas.drawColor(Color.WHITE);
+        view.draw(canvas);
+        return returnedBitmap;
+    }
+    private void saveToGallery () {
+
+        Bitmap bitmap = setViewToBitmapImage(relativeLayout);
+
+        FileOutputStream outputStream = null;
+        File file = Environment.getExternalStorageDirectory();
+        File dir = new File(file.getAbsolutePath() + "/Pictures");
+        dir.mkdirs();
+
+        String filename = String.format("%d.png",System.currentTimeMillis());
+        File outFile = new File (dir,filename);
+
+        try{
+            outputStream = new FileOutputStream(outFile);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
+
+        try{
+            outputStream.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try{
+            outputStream.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
