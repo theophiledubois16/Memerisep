@@ -2,11 +2,11 @@ package com.example.templateselector;
 
 
 import androidx.appcompat.app.AppCompatActivity;
-<<<<<<< HEAD
+
 import androidx.core.app.ActivityCompat;
-=======
+
 import androidx.constraintlayout.widget.ConstraintSet;
->>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
+
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -17,13 +17,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-<<<<<<< HEAD
+
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-=======
+
 import android.graphics.drawable.Drawable;
 import android.media.Image;
->>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
+
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -36,15 +36,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
 
-<<<<<<< HEAD
+
 import java.io.File;
 import java.io.FileOutputStream;
-=======
+
 import java.nio.file.ClosedDirectoryStreamException;
->>>>>>> ff6db5b68d817b824bc18d315938c9ad8bf4d903
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton submit;
     private ImageView imageView;
     float dX, dY;
+    private ScrollView scrollView;
 
 
 
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        scrollView = findViewById(R.id.scrollView);
         textInput = findViewById(R.id.plain_text_input);
         relativeLayout = findViewById(R.id.relativeLayout);
         editTextStyle = findViewById(R.id.textEditorLayout);
@@ -111,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     RelativeLayout parentLayout = (RelativeLayout) v.getParent();
-
+                    //scrollView.setEnabled(false);
                     int w = v.getWidth();
                     int h = v.getHeight();
                     int W = parentLayout.getWidth();
@@ -208,7 +211,6 @@ public class MainActivity extends AppCompatActivity {
                             break;
                     }
                     selectedText = newTextView;
-
                     editTextStyle.setVisibility(View.VISIBLE);
                     editText.setVisibility(View.GONE);
                     apply.setVisibility(View.VISIBLE);
