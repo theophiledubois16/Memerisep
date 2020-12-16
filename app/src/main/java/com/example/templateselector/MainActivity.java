@@ -1,13 +1,6 @@
 package com.example.templateselector;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import androidx.core.app.ActivityCompat;
-
-import androidx.constraintlayout.widget.ConstraintSet;
-
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -15,15 +8,8 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
-
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -38,13 +24,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import com.bumptech.glide.Glide;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.FileOutputStream;
-
-import java.nio.file.ClosedDirectoryStreamException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -114,7 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     RelativeLayout parentLayout = (RelativeLayout) v.getParent();
-                    //scrollView.setEnabled(false);
+
+                    scrollView.setOnTouchListener( new View.OnTouchListener(){
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            return true;
+                        }
+                    });
+
                     int w = v.getWidth();
                     int h = v.getHeight();
                     int W = parentLayout.getWidth();
@@ -215,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
                     editText.setVisibility(View.GONE);
                     apply.setVisibility(View.VISIBLE);
                     apply.setEnabled(true);
+                    scrollView.setOnTouchListener(null);
                     return true;
                 }
 
