@@ -5,16 +5,20 @@
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#6B6B95EA"
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +32,7 @@
                 android:layout_gravity="center|center_horizontal"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                app:srcCompat="@drawable/expanding_brain"
+                app:srcCompat="@drawable/meme_template"
                 tools:ignore="MissingConstraints" />
 
         </RelativeLayout>
@@ -48,6 +52,8 @@
                 android:id="@+id/textEditorLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/border3"
                 android:orientation="vertical"
                 android:padding="10dp"
                 android:visibility="gone"
@@ -59,40 +65,23 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/left"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="left"
-                        android:onClick="textStyleManager"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/left_align" />
 
-                    <ImageButton
-                        android:id="@+id/center"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="center"
-                        android:onClick="textStyleManager"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/center_align" />
-
-                    <ImageButton
-                        android:id="@+id/right"
+                    <Button
+                        android:id="@+id/font"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:contentDescription="right"
+                        android:background="#00FFFFFF"
+                        android:contentDescription="font"
                         android:onClick="textStyleManager"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/pack07_03_512" />
+                        android:text="Font"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#000000"
+                        android:textSize="30sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:id="@+id/view"
@@ -104,10 +93,13 @@
                         android:id="@+id/fontSizeUp"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
+                        android:background="@drawable/border"
                         android:contentDescription="+"
                         android:onClick="textStyleManager"
+                        android:padding="8dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/fup" />
 
@@ -115,10 +107,13 @@
                         android:id="@+id/fontSizeDown"
                         android:layout_width="60dp"
                         android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
+                        android:background="@drawable/border"
                         android:contentDescription="-"
                         android:onClick="textStyleManager"
+                        android:padding="8dp"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/fdown" />
 
@@ -129,40 +124,51 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <ImageButton
-                        android:id="@+id/bold"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_weight="1"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="bold"
-                        android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/bold_512" />
-                        <!--
+                    <!--
                         android:onClick="textStyleManager"
                         -->
 
-                    <View
-                        android:id="@+id/view1"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
 
-                    <Button
-                        android:id="@+id/font"
+                    <ImageButton
+                        android:id="@+id/left"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
-                        android:contentDescription="font"
+                        android:background="@drawable/border"
+                        android:contentDescription="left"
                         android:onClick="textStyleManager"
+                        android:padding="5dp"
                         android:scaleType="fitCenter"
-                        android:text="Font"
-                        android:textAlignment="center"
-                        android:textAllCaps="false"
-                        android:textColor="#000000"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        app:srcCompat="@drawable/left_align" />
+
+                    <ImageButton
+                        android:id="@+id/center"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/border"
+                        android:contentDescription="center"
+                        android:onClick="textStyleManager"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/center_align" />
+
+                    <ImageButton
+                        android:id="@+id/right"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/border"
+                        android:contentDescription="right"
+                        android:onClick="textStyleManager"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/pack07_03_512" />
 
                     <View
                         android:id="@+id/view2"
@@ -176,6 +182,7 @@
                         android:layout_height="50dp"
                         android:layout_weight="1"
                         android:adjustViewBounds="true"
+                        android:background="@drawable/border"
                         android:contentDescription="bin"
                         android:onClick="textStyleManager"
                         android:scaleType="fitCenter"
@@ -206,6 +213,7 @@
 
                 <EditText
                     android:id="@+id/plain_text_input"
+                    android:singleLine="false"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|center_horizontal"
@@ -245,6 +253,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:adjustViewBounds="true"
+                android:background="#00FFFFFF"
                 android:onClick="changeTemplate"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
@@ -279,21 +288,20 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:animateLayoutChanges="true"
-            android:background="#C3000000"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/rootLayout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#270C0000"
+                android:background="#CD0C0000"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="15dp">
@@ -462,7 +470,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
-                    android:backgroundTint="#BFEAD2D2"
+                    android:backgroundTint="#BFE6D6D6"
                     android:onClick="setFont"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/submit" />
