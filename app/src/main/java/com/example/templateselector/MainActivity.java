@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
-       /** String urlTemplate =  getIntent().getStringExtra("urlToPass");
+        String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
         Glide.with(this)
                 .load(urlTemplate)
-                .into(imageView);**/
+                .into(imageView);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -313,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 saveToGallery();
+                //TODO: FINISH INTENT WHEN IMAGE IS SAVED
             }
         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
