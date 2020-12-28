@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText textInput;
     private RelativeLayout relativeLayout;
     private LinearLayout editTextStyle, editText, fontEditor;
-    private Button apply, selectedText, saveMeme,font;
-    private ImageButton submit;
+    private Button apply, selectedText,font;
+    private ImageButton submit, saveMeme;
     private ImageView imageView;
     float dX, dY;
     private ScrollView scrollView;
@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
-        String urlTemplate =  getIntent().getStringExtra("urlToPass");
+       /** String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
         Glide.with(this)
                 .load(urlTemplate)
-                .into(imageView);
+                .into(imageView);**/
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -270,17 +270,6 @@ public class MainActivity extends AppCompatActivity {
             else if (action.equals("right")){
                 selectedText.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             }
-            else if (action.equals("bold")){
-                Log.d("BOLD", "TYPEFACE = "+ selectedText.getTypeface().getStyle());
-                if (selectedText.getTypeface().getStyle() == 0) {
-
-                    selectedText.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-                }
-                else if (selectedText.getTypeface().getStyle() == 1) {
-
-                    selectedText.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
-                }
-            } //TODO: ne prend pas en compte la police et la reset, A FIXER
             else if (action.equals("bin")){
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -319,7 +308,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveMemeClicked (View view){
-        saveToGallery();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you happy with your work?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                saveToGallery();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     public static Bitmap setViewToBitmapImage(View view) {
