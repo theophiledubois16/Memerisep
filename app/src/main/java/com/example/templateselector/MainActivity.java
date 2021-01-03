@@ -74,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
-        String urlTemplate =  getIntent().getStringExtra("urlToPass");
+        /*String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
         Glide.with(this)
                 .load(urlTemplate)
-                .into(imageView);
+                .into(imageView); */
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -96,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
             newTextView.setBackground(null);
             newTextView.setAllCaps(false);
             newTextView.isClickable();
+            newTextView.setSingleLine(false);
+            newTextView.setMinWidth(350);
+            newTextView.setMaxWidth(650);
             newTextView.setLayoutParams(params);
             newTextView.setText(String.valueOf(textInput.getText()));
 
@@ -107,7 +110,16 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
+                    if (selectedText!= null) {
+                        selectedText.setBackground(null);
+                    }
                     RelativeLayout parentLayout = (RelativeLayout) v.getParent();
+                    Typeface style = newTextView.getTypeface();
+                    font.setTypeface(style);
+                    int viewColor = newTextView.getCurrentTextColor();
+                    String hexColor = String.format("#%06X", (0xFFFFFF & viewColor));
+                    font.setTextColor(Color.parseColor(hexColor));
+                    v.setBackgroundResource(R.drawable.border2);
 
                     int w = v.getWidth();
                     int h = v.getHeight();
@@ -207,13 +219,33 @@ public class MainActivity extends AppCompatActivity {
                             }
                             break;
 
+                        case MotionEvent.ACTION_POINTER_DOWN: //TODO : à améliorer
+                            Log.d("HELLO", "THERE ARE TWO FINGERS DOWN NOW");
+                            int pointerId = event.getPointerId(1);
+                            int pointerIndex = event.findPointerIndex(pointerId);
+                            // Get the pointer's current position
+                            float a = event.getX(pointerIndex);
+                            Log.d(" NOT POINTER GETX: ", ""+event.getX());
+                            Log.d(" POINTER GETX: ", ""+a);
+                            float dist = a - event.getX();
+
+                            Log.d("dist", "onTouch: "+dist);
+                            v.setLayoutParams(new RelativeLayout.LayoutParams((int)dist, (int) RelativeLayout.LayoutParams.WRAP_CONTENT));
+
+                            break;
+
+                        case MotionEvent.ACTION_POINTER_UP:
+
+                            Log.d("Bye", "THERE ARE NO LONGER TWO FINGERS DOWN NOW");
+                            break;
+
+
                         case MotionEvent.ACTION_UP:
 
                             relativeLayout.requestDisallowInterceptTouchEvent(false);
 
                             Log.d("FALSE", "onTouch: "+ "relativeLayout.requestDisallowInterceptTouchEvent(flase);" );
                     }
-                    Typeface style = newTextView.getTypeface();
                     font.setTypeface(style);
 
                     selectedText = newTextView;
@@ -233,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
         editTextStyle.setVisibility(View.GONE);
         editText.setVisibility(View.VISIBLE);
         apply.setVisibility(View.GONE);
+        selectedText.setBackground(null);
     }
 
     @SuppressLint("WrongConstant")
