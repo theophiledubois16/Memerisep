@@ -5,6 +5,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -74,11 +75,29 @@ public class MainActivity extends AppCompatActivity {
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
 
         apply.setEnabled(false);
-        /*String urlTemplate =  getIntent().getStringExtra("urlToPass");
+        Intent intent = getIntent();
+        String imagePath = intent.getStringExtra("picturePath");
+        Intent intentShot = getIntent();
+        Bitmap pictureShot = intentShot.getParcelableExtra("pictureShot");
+        System.out.println("PATH PASSED : " + imagePath);
+        String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
-        Glide.with(this)
-                .load(urlTemplate)
-                .into(imageView); */
+        if (urlTemplate != null)
+        {
+            Glide.with(this)
+                    .load(urlTemplate)
+                    .into(imageView);
+
+        }
+        else if (imagePath != null)
+        {
+            Glide.with(this).load(imagePath).into(imageView);
+        }
+        else if (pictureShot != null){
+            System.out.println("bitmap PASSED : " + pictureShot);
+            imageView.setImageBitmap(pictureShot);
+
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
