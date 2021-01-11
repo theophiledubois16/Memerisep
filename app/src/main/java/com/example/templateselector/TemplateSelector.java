@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,9 +37,6 @@ public class TemplateSelector extends AppCompatActivity {
     public ArrayList<String> nameTemplatesList = new ArrayList<>();
     public ArrayList<String> urlTemplatesList = new ArrayList<>();
 
-
-    private ArrayList<String> mTemplatesNames = new ArrayList<String>();
-    private ArrayList<String> mUrlsTemplatesList = new ArrayList<>();
     ImageView memeTemplate;
     public int indexTemplate = 0;
 
@@ -49,9 +47,11 @@ public class TemplateSelector extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.template_selector);
-
+        Intent intentImgflip = getIntent();
+        urlTemplatesList = intentImgflip.getStringArrayListExtra("intentImgflip");
+        nameTemplatesList = intentImgflip.getStringArrayListExtra("intentNameImgflip");
+        System.out.println("intent img flip " + urlTemplatesList);
         memeTemplate = findViewById(R.id.memeTemplate);
-
 
 
         initTemplatesRecyclerView();
@@ -61,7 +61,7 @@ public class TemplateSelector extends AppCompatActivity {
     private void initTemplatesRecyclerView(){
 
         RecyclerView recyclerView = findViewById(R.id.templatesRecyclerView);
-        TemplateSelector.TemplatesRecyclerViewAdapter adapter = new TemplateSelector.TemplatesRecyclerViewAdapter(mTemplatesNames,mUrlsTemplatesList,this);
+        TemplateSelector.TemplatesRecyclerViewAdapter adapter = new TemplateSelector.TemplatesRecyclerViewAdapter(nameTemplatesList,urlTemplatesList,this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -70,51 +70,17 @@ public class TemplateSelector extends AppCompatActivity {
 
 
         private final ArrayList<String> mUrlsTemplatesList;
-        private ArrayList<String> mTemplatesNames = new ArrayList<>();
+        private final ArrayList<String> mTemplatesNames;
         private Context mContext;
 
 
         public TemplatesRecyclerViewAdapter(ArrayList<String> mTemplatesNames, ArrayList<String> mUrlsTemplatesList, Context mContext) {
 
-            String url = "https://api.imgflip.com/get_memes";
-            RequestQueue queue = Volley.newRequestQueue(mContext);
-
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d("Volley", response.toString());
-                            try {
-                                JSONObject data = response.getJSONObject("data");
-                                JSONArray memes = data.getJSONArray("memes");
-                                for (int i = 0; i < memes.length(); i++){
-                                    JSONObject n = memes.getJSONObject(i);
-                                    String id = n.getString("id");
-                                    idTemplatesList.add(id);
-                                    String name = n.getString("name");
-                                    nameTemplatesList.add(name);
-                                    String url = n.getString("url");
-                                    urlTemplatesList.add(url);
-
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Volley", "An error occurred.");
-                }
-            });
-
-            queue.add(request);
-
 
             this.mTemplatesNames = nameTemplatesList;
             this.mUrlsTemplatesList = urlTemplatesList;
             this.mContext = mContext;
+            System.out.println("M URL " + mUrlsTemplatesList);
         }
 
 
@@ -134,6 +100,7 @@ public class TemplateSelector extends AppCompatActivity {
                     .load(mUrlsTemplatesList.get(position))
                     .into(holder.memeTemplate);
             holder.templatesNames.setText(mTemplatesNames.get(position));
+            System.out.println("HOLDER URL LIST " + mUrlsTemplatesList );
 
 
             holder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +120,7 @@ public class TemplateSelector extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mTemplatesNames.size();
+            return mUrlsTemplatesList.size();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder{

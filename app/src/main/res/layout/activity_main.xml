@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|center_horizontal"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
+                android:scaleType="fitXY"
                 app:srcCompat="@drawable/meme_template"
                 tools:ignore="MissingConstraints" />
 
