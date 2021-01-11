@@ -168,71 +168,71 @@ public class MainActivity extends AppCompatActivity {
                             float Y = parentLayout.getY();
 
 
-                            if ((Y+H)<(y+h+30) ){
+                            if ((Y+H)<(y+h+2) ){
 
                                 v.animate()
                                         .x(event.getRawX() + dX)
-                                        .y((Y+H) -(h+30))
+                                        .y((Y+H) -(h+2))
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO LOW");
                             }
 
-                            if ((X+W)<(x+w+30)){
+                            if ((X+W)<(x+w+2)){
                                 v.animate()
-                                        .x((X+W) -(w+30))
+                                        .x((X+W) -(w+2))
                                         .y(event.getRawY() + dY)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO RIGHT");
                             }
 
-                            if ((x)<(X+30)){
+                            if ((x)<(X+2)){
                                 v.animate()
-                                        .x(X + 30)
+                                        .x(X + 2)
                                         .y(event.getRawY() + dY)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO LEFT");
                             }
 
-                            if ((y)<(Y+30)){
+                            if ((y)<(Y+2)){
                                 v.animate()
                                         .x(event.getRawX() + dX)
-                                        .y(Y + 30)
+                                        .y(Y + 2)
                                         .setDuration(0)
                                         .start();
                                 Log.d("TAG", "TOO HIGH");
                             }
 
-                            if(((x)<(X+30))&&((y)<(Y+30))){ //hl
+                            if(((x)<(X+2))&&((y)<(Y+2))){ //hl
                                 v.animate()
-                                        .x(X+30)
-                                        .y(Y + 30)
+                                        .x(X+2)
+                                        .y(Y + 2)
                                         .setDuration(0)
                                         .start();
                             }
 
-                            if(((y)<(Y+30))&&((X+W)<(x+w+30))){
+                            if(((y)<(Y+2))&&((X+W)<(x+w+2))){
                                 v.animate()
-                                        .x((X+W) -(w+30))
-                                        .y(Y+30)
+                                        .x((X+W) -(w+2))
+                                        .y(Y+2)
                                         .setDuration(0)
                                         .start();
                             }
 
-                            if(((Y+H)<(y+h+30))&&((x)<(X+30))){
+                            if(((Y+H)<(y+h+2))&&((x)<(X+2))){
                                 v.animate()
-                                        .x(X+30)
-                                        .y((Y+H) -(h+30))
+                                        .x(X+2)
+                                        .y((Y+H) -(h+2))
                                         .setDuration(0)
                                         .start();
                             }
 
-                            if(((Y+H)<(y+h+30))&&((X+W)<(x+w+30))){
+                            if(((Y+H)<(y+h+2))&&((X+W)<(x+w+2))){
                                 v.animate()
-                                        .x((X+W) -(w+30))
-                                        .y((Y+H) -(h+30))
+                                        .x((X+W) -(w+2))
+                                        .y((Y+H) -(h+2))
                                         .setDuration(0)
                                         .start();
                             }
@@ -355,6 +355,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changeTemplate (View view){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure? All your unsaved work will be lost!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                quit();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void quit (){
         this.finish();
 
     }
@@ -418,6 +434,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        quit();
     }
 
     public void fontSetter(View view){
