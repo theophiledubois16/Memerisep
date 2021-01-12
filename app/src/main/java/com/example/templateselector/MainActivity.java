@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private LinearLayout editTextStyle, editText, fontEditor;
     private Button apply, selectedText,font;
-    private ImageButton submit, saveMeme;
+    private ImageButton submit;
     private ImageView imageView;
     float dX, dY;
     private ScrollView scrollView;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         scrollView = findViewById(R.id.scrollView);
         textInput = findViewById(R.id.plain_text_input);
@@ -67,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         submit = findViewById(R.id.submit);
         apply = findViewById(R.id.apply);
         imageView = findViewById(R.id.imageView);
-        saveMeme = findViewById(R.id.save);
         fontEditor = findViewById(R.id.fontEditor);
         fontExampleView = findViewById(R.id.fontExempleView);
         font = findViewById(R.id.font);
@@ -117,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
             newTextView.setAllCaps(false);
             newTextView.isClickable();
             newTextView.setSingleLine(false);
-            newTextView.setMinWidth(350);
-            newTextView.setMaxWidth(650);
+            newTextView.setMinWidth(275);
+            newTextView.setMaxWidth(450);
             newTextView.setLayoutParams(params);
             newTextView.setText(String.valueOf(textInput.getText()));
 
@@ -146,14 +148,14 @@ public class MainActivity extends AppCompatActivity {
                     int W = parentLayout.getWidth();
                     int H = parentLayout.getHeight();
 
-                    switch (event.getAction()) {
+                    switch (event.getAction() & MotionEvent.ACTION_MASK) {
 
                         case MotionEvent.ACTION_DOWN:
 
                             relativeLayout.requestDisallowInterceptTouchEvent(true);
-                            Log.d("TRUE", "onTouch: "+ "relativeLayout.requestDisallowInterceptTouchEvent(true);" );
                             dX = v.getX() - event.getRawX();
                             dY = v.getY() - event.getRawY();
+
                             break;
 
                         case MotionEvent.ACTION_MOVE:
@@ -239,7 +241,8 @@ public class MainActivity extends AppCompatActivity {
                             }
                             break;
 
-                        case MotionEvent.ACTION_POINTER_DOWN: //TODO : à améliorer
+                        case MotionEvent.ACTION_POINTER_DOWN:
+
                             Log.d("HELLO", "THERE ARE TWO FINGERS DOWN NOW");
                             int pointerId = event.getPointerId(1);
                             int pointerIndex = event.findPointerIndex(pointerId);
@@ -247,11 +250,11 @@ public class MainActivity extends AppCompatActivity {
                             float a = event.getX(pointerIndex);
                             Log.d(" NOT POINTER GETX: ", ""+event.getX());
                             Log.d(" POINTER GETX: ", ""+a);
-                            float dist = a - event.getX();
+
+                            float dist = Math.abs(a - event.getX());
 
                             Log.d("dist", "onTouch: "+dist);
                             v.setLayoutParams(new RelativeLayout.LayoutParams((int)dist, (int) RelativeLayout.LayoutParams.WRAP_CONTENT));
-
                             break;
 
                         case MotionEvent.ACTION_POINTER_UP:
