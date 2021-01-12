@@ -1,19 +1,19 @@
 package com.example.templateselector;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -26,14 +26,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+
+import static androidx.core.content.FileProvider.getUriForFile;
 
 public class typeOfTemplateActivity extends AppCompatActivity {
     private static int RESULT_LOAD_IMAGE = 1;
     private Button nextButton;
-    private Uri selectedImage;
+    private Uri selectedImage, photoURI;
     private String picturePath;
-    private Bitmap pictureShot;
+    private Uri pictureShot;
     static final int REQUEST_IMAGE_CAPTURE = 10;
     private ArrayList<String> idTemplatesList = new ArrayList<>();
     private ArrayList<String> nameTemplatesList = new ArrayList<>();
@@ -105,13 +110,49 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
     public void takePicture (View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        } catch (ActivityNotFoundException e) {
-            // display error state to the user
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                photoURI = getUriForFile(this,
+                        "com.example.imgfliptest.fileprovider",
+                        photoFile);
+
+
+
+                System.out.println("URI de l'image : " + photoURI);
+                Log.d("URI de l'image : ", "" + photoURI);
+
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
         }
     }
 
+    String currentPhotoPath;
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -140,11 +181,11 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
         }
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            Uri selectedFile = photoURI;
+            System.out.println("URI de l'image prise: " + selectedFile);
             ImageView importedImageView = (ImageView) findViewById(R.id.importedImageView);
-            importedImageView.setImageBitmap(imageBitmap);
-            pictureShot = imageBitmap;
+            importedImageView.setImageURI(selectedFile);
+            pictureShot = selectedFile;
             picturePath = null;
         }
     }

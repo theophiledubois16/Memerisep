@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String imagePath = intent.getStringExtra("picturePath");
         Intent intentShot = getIntent();
-        Bitmap pictureShot = intentShot.getParcelableExtra("pictureShot");
+        Uri pictureShot = intentShot.getParcelableExtra("pictureShot");
         System.out.println("PATH PASSED : " + imagePath);
         String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (pictureShot != null){
             System.out.println("bitmap PASSED : " + pictureShot);
-            imageView.setImageBitmap(pictureShot);
+            imageView.setImageURI(pictureShot);
 
         }
     }
