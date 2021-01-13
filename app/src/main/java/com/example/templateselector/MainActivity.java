@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -31,10 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 
 import com.bumptech.glide.Glide;
@@ -48,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText textInput;
     private RelativeLayout relativeLayout;
     private LinearLayout editTextStyle, editText, fontEditor;
-    private Button apply, selectedText,font;
-    private ImageButton submit;
+    private Button apply, selectedText,font, bandUp, bandDown;
+    private ImageButton submit, changeTemplate;
     private ImageView imageView;
     float dX, dY;
     private ScrollView scrollView;
@@ -66,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         scrollView = findViewById(R.id.scrollView);
+        bandUp = findViewById(R.id.bandUp);
+        bandDown = findViewById(R.id.bandDown);
+        changeTemplate=findViewById(R.id.changeTemplate);
         textInput = findViewById(R.id.plain_text_input);
         relativeLayout = findViewById(R.id.relativeLayout);
         editTextStyle = findViewById(R.id.textEditorLayout);
@@ -94,10 +94,14 @@ public class MainActivity extends AppCompatActivity {
                     .load(urlTemplate)
                     .into(imageView);
 
+
+            changeTemplate.setVisibility(View.VISIBLE);
+
         }
         else if (imagePath != null)
         {
             Glide.with(this).load(imagePath).into(imageView);
+
         }
         else if (pictureShot != null){
             System.out.println("bitmap PASSED : " + pictureShot);
@@ -397,6 +401,45 @@ public class MainActivity extends AppCompatActivity {
         this.finish();
 
     }
+
+    public void addBand (View view){
+
+        Button selectedBand = null;
+        ImageButton buttonClicked = (ImageButton) view;
+        CharSequence action = buttonClicked.getContentDescription();
+
+        System.out.println("id : " + getResources().getResourceEntryName(buttonClicked.getId()));
+
+        System.out.println(action);
+
+        if (getResources().getResourceEntryName(buttonClicked.getId()).contains("upper")){
+            selectedBand = bandUp;
+        }
+
+        else if (getResources().getResourceEntryName(buttonClicked.getId()).contains("lower")){
+            selectedBand = bandDown;
+        }
+
+        System.out.println("id : " + getResources().getResourceEntryName(selectedBand.getId()));
+
+        if (action.toString().contains("thin")){
+            selectedBand.setVisibility(View.VISIBLE);
+            selectedBand.setLayoutParams(new LinearLayout.LayoutParams((int)LinearLayout.LayoutParams.MATCH_PARENT, (int) 175));
+        }
+        else if (action.toString().contains("normal")){
+            selectedBand.setVisibility(View.VISIBLE);
+            selectedBand.setLayoutParams(new LinearLayout.LayoutParams((int)LinearLayout.LayoutParams.MATCH_PARENT, (int) 263));
+        }
+        else if (action.toString().contains("thik")){
+            selectedBand.setVisibility(View.VISIBLE);
+            selectedBand.setLayoutParams(new LinearLayout.LayoutParams((int)LinearLayout.LayoutParams.MATCH_PARENT, (int) 350));
+        }
+        else if (action.toString().contains("gone")){
+            selectedBand.setVisibility(View.GONE);
+        }
+
+    }
+
 
     public void saveMemeClicked (View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
