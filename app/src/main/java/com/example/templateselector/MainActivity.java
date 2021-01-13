@@ -4,6 +4,7 @@ package com.example.templateselector;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -13,6 +14,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     float dX, dY;
     private ScrollView scrollView;
     private TextView fontExampleView;
+    public Context context;
 
 
 
@@ -373,6 +376,22 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure? All your unsaved work will be lost!").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                quit();
+            }
+        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public void quit (){
         this.finish();
@@ -414,7 +433,7 @@ public class MainActivity extends AppCompatActivity {
 
         FileOutputStream outputStream = null;
         File file = Environment.getExternalStorageDirectory();
-        File dir = new File(file.getAbsolutePath() + "/Pictures/MemerISEP");
+        File dir = new File(file.getAbsolutePath() + "/MemerISEP");
         dir.mkdirs();
 
         String filename = String.format("%d.png",System.currentTimeMillis());
@@ -438,6 +457,7 @@ public class MainActivity extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        new SingleMediaScanner(this, outFile);
         quit();
     }
 
@@ -471,6 +491,29 @@ public class MainActivity extends AppCompatActivity {
         fontEditor.setVisibility(View.GONE);
 
         apply.setVisibility(View.VISIBLE);
+
+    }
+
+    public class SingleMediaScanner implements MediaScannerConnection.MediaScannerConnectionClient {
+
+        private MediaScannerConnection mMs;
+        private File mFile;
+
+        public SingleMediaScanner(Context context, File f) {
+            mFile = f;
+            mMs = new MediaScannerConnection(context, this);
+            mMs.connect();
+        }
+
+        @Override
+        public void onMediaScannerConnected() {
+            mMs.scanFile(mFile.getAbsolutePath(), null);
+        }
+
+        @Override
+        public void onScanCompleted(String path, Uri uri) {
+            mMs.disconnect();
+        }
 
     }
 }
