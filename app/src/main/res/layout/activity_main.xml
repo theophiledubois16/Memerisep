@@ -236,7 +236,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:layout_marginBottom="7dp"
-                android:orientation="horizontal">
+                android:background="@drawable/border"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
                 <ImageButton
                     android:id="@+id/upperBand"
@@ -262,6 +264,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="thin"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
@@ -277,6 +280,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="normal"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
@@ -291,6 +295,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="thik"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
@@ -305,6 +310,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="thin"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
@@ -319,6 +325,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="normal"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
@@ -333,6 +340,7 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:background="@drawable/border4"
+                    android:backgroundTint="#F6F4F4"
                     android:contentDescription="thik"
                     android:onClick="addBand"
                     android:scaleType="fitCenter"
