@@ -7,50 +7,73 @@
     tools:context=".typeOfTemplateActivity">
 
     <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbarAlwaysDrawHorizontalTrack="false">
 
             <Button
                 android:id="@+id/selectTemplate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:background="#0DA0B3"
+                android:minWidth="400px"
                 android:onClick="selectTemplateClicked"
-                android:text="Select template" />
+                android:text="Select template"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/importImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:background="#0DA0B3"
+                android:minWidth="400px"
                 android:onClick="importImageClicked"
-                android:text="Import image" />
+                android:text="Import image"
+                android:textColor="#FFFFFF" />
 
             <Button
                 android:id="@+id/takePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="30px"
+                android:background="#0DA0B3"
+                android:minWidth="400px"
                 android:onClick="takePicture"
-                android:text="Take picture" />
+                android:text="Take picture"
+                android:textColor="#FFFFFF" />
 
             <ImageView
                 android:id="@+id/importedImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+                android:backgroundTint="#FF0000"
                 android:scaleType="fitXY"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <Button
                 android:id="@+id/nextButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:width="400px"
+                android:background="#08D642"
+                android:minWidth="400px"
                 android:onClick="nextClicked"
-                android:text="Next" />
+                android:text="Next"
+                android:textColorHighlight="#FFFFFF" />
         </LinearLayout>
     </ScrollView>
 
