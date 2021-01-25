@@ -49,6 +49,7 @@ public class typeOfTemplateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_of_template);
         nextButton = findViewById(R.id.nextButton);
+        nextButton.setVisibility(View.GONE);
 
     }
 
@@ -106,6 +107,7 @@ public class typeOfTemplateActivity extends AppCompatActivity {
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
 
+
     }
 
     public void takePicture (View view) {
@@ -132,6 +134,7 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                nextButton.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -177,6 +180,7 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
             ImageView importedImageView = (ImageView) findViewById(R.id.importedImageView);
             importedImageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            nextButton.setVisibility(View.VISIBLE);
             pictureShot = null;
 
         }
@@ -185,6 +189,7 @@ public class typeOfTemplateActivity extends AppCompatActivity {
             System.out.println("URI de l'image prise: " + selectedFile);
             ImageView importedImageView = (ImageView) findViewById(R.id.importedImageView);
             importedImageView.setImageURI(selectedFile);
+            nextButton.setVisibility(View.VISIBLE);
             pictureShot = selectedFile;
             picturePath = null;
         }

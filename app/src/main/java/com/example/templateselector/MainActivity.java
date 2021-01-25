@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                     ((int) RelativeLayout.LayoutParams.WRAP_CONTENT,(int) RelativeLayout.LayoutParams.WRAP_CONTENT);
 
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
-
             newTextView.setTextColor(Color.parseColor("#000000"));
             newTextView.setTextSize(30);
             newTextView.setBackground(null);
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             newTextView.isClickable();
             newTextView.setSingleLine(false);
             newTextView.setMinWidth(275);
-            newTextView.setMaxWidth(450);
+            newTextView.setMaxWidth(imageView.getWidth());
             newTextView.setLayoutParams(params);
             newTextView.setText(String.valueOf(textInput.getText()));
 
