@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
         String imagePath = intent.getStringExtra("picturePath");
         Intent intentShot = getIntent();
         Uri pictureShot = intentShot.getParcelableExtra("pictureShot");
-        System.out.println("PATH PASSED : " + imagePath);
         String urlTemplate =  getIntent().getStringExtra("urlToPass");
 
         if (urlTemplate != null)
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
         else if (pictureShot != null){
-            System.out.println("bitmap PASSED : " + pictureShot);
             imageView.setImageURI(pictureShot);
 
         }
@@ -407,9 +405,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton buttonClicked = (ImageButton) view;
         CharSequence action = buttonClicked.getContentDescription();
 
-        System.out.println("id : " + getResources().getResourceEntryName(buttonClicked.getId()));
 
-        System.out.println(action);
 
         if (getResources().getResourceEntryName(buttonClicked.getId()).contains("upper")){
             selectedBand = bandUp;
@@ -419,7 +415,6 @@ public class MainActivity extends AppCompatActivity {
             selectedBand = bandDown;
         }
 
-        System.out.println("id : " + getResources().getResourceEntryName(selectedBand.getId()));
 
         if (action.toString().contains("thin")){
             selectedBand.setVisibility(View.VISIBLE);

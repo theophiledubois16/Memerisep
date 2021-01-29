@@ -75,12 +75,10 @@ public class typeOfTemplateActivity extends AppCompatActivity {
                                 nameTemplatesList.add(name);
                                 String url = n.getString("url");
                                 urlTemplatesList.add(url);
-                                System.out.println("URL  LIST  " + urlTemplatesList);
 
 
 
                             }
-                            System.out.println("URL TAMPLATE LIST COMPLETE " + urlTemplatesList);
                             Intent intentImgflip = new Intent(typeOfTemplateActivity.this, TemplateSelector.class);
                             intentImgflip.putExtra("intentImgflip",urlTemplatesList);
                             intentImgflip.putExtra("intentNameImgflip",nameTemplatesList);
@@ -129,8 +127,6 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
 
 
-                System.out.println("URI de l'image : " + photoURI);
-                Log.d("URI de l'image : ", "" + photoURI);
 
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -171,7 +167,6 @@ public class typeOfTemplateActivity extends AppCompatActivity {
 
             cursor.close();
 
-            System.out.println("URI de l'image : " + selectedImage);
 
 /*            Intent imageUri = new Intent(typeOfTemplateActivity.this, MainActivity.class);
             imageUri.putExtra("imageUri",imageUri);
@@ -186,7 +181,6 @@ public class typeOfTemplateActivity extends AppCompatActivity {
         }
         else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Uri selectedFile = photoURI;
-            System.out.println("URI de l'image prise: " + selectedFile);
             ImageView importedImageView = (ImageView) findViewById(R.id.importedImageView);
             importedImageView.setImageURI(selectedFile);
             nextButton.setVisibility(View.VISIBLE);
@@ -200,14 +194,12 @@ public class typeOfTemplateActivity extends AppCompatActivity {
     {
         if (picturePath != null && pictureShot == null){
             Intent intentImported = new Intent(typeOfTemplateActivity.this,MainActivity.class);
-            System.out.println("Image path : " + picturePath);
             intentImported.putExtra("picturePath",picturePath);
 
             startActivity(intentImported);
         }
         else if (picturePath == null && pictureShot != null){
             Intent intentShot = new Intent(typeOfTemplateActivity.this,MainActivity.class);
-            System.out.println("picture shot : " + pictureShot);
             intentShot.putExtra("pictureShot", pictureShot);
 
             startActivity(intentShot);

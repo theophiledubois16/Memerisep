@@ -38,7 +38,6 @@ public class TemplateSelector extends AppCompatActivity {
         Intent intentImgflip = getIntent();
         urlTemplatesList = intentImgflip.getStringArrayListExtra("intentImgflip");
         nameTemplatesList = intentImgflip.getStringArrayListExtra("intentNameImgflip");
-        System.out.println("intent img flip " + urlTemplatesList);
         memeTemplate = findViewById(R.id.memeTemplate);
 
 
@@ -68,7 +67,6 @@ public class TemplateSelector extends AppCompatActivity {
             this.mTemplatesNames = nameTemplatesList;
             this.mUrlsTemplatesList = urlTemplatesList;
             this.mContext = mContext;
-            System.out.println("M URL " + mUrlsTemplatesList);
         }
 
 
@@ -88,14 +86,12 @@ public class TemplateSelector extends AppCompatActivity {
                     .load(mUrlsTemplatesList.get(position))
                     .into(holder.memeTemplate);
             holder.templatesNames.setText(mTemplatesNames.get(position));
-            System.out.println("HOLDER URL LIST " + mUrlsTemplatesList );
 
 
             holder.parentLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     urlToPass = mUrlsTemplatesList.get(position);
-                    System.out.println("LKUFOTIGT " + urlToPass );
                     Intent intent = new Intent(TemplateSelector.this, MainActivity.class);
                     intent.putExtra("urlToPass", urlToPass);
                     startActivity(intent);
